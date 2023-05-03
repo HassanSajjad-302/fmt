@@ -8,14 +8,13 @@ void configurationSpecification(Configuration& configuration) {
 
   DSC<CppSourceTarget>& fmt = configuration.GetCppStaticDSC("fmt");
   fmt.getSourceTarget()
-      .MODULE_FILES("main.cpp")
-      .PRIVATE_HU_INCLUDES("include/");
+      .MODULE_DIRECTORIES("src", ".*cc")
+      .PUBLIC_HU_INCLUDES("include/");
 
   DSC<CppSourceTarget>& app =
       configuration.GetCppExeDSC("app").PRIVATE_LIBRARIES(&fmt, &std);
   app.getSourceTarget()
-      .MODULE_DIRECTORIES("src", ".*cc")
-      .PRIVATE_INCLUDES("include/");
+      .MODULE_FILES("main.cpp");
 
   configuration.setModuleScope(app.getSourceTargetPointer());
 }
